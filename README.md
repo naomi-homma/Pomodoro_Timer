@@ -13,6 +13,8 @@
 ●実装イメージは以下サイトを参考  
 https://www.moongift.jp/2018/08/pomotroid-%E3%82%B7%E3%83%B3%E3%83%97%E3%83%AB%E3%81%AA%E3%83%9D%E3%83%A2%E3%83%89%E3%83%BC%E3%83%AD%E3%83%86%E3%82%AF%E3%83%8B%E3%83%83%E3%82%AF%E7%94%A8%E3%82%A2%E3%83%97%E3%83%AA/
 
+![Image1](https://user-images.githubusercontent.com/65643774/85924458-65908d00-b8cd-11ea-8491-751313b642a2.png)　![Image2](https://user-images.githubusercontent.com/65643774/85924459-66c1ba00-b8cd-11ea-89b8-005bff5a68cb.png)　![Image3](https://user-images.githubusercontent.com/65643774/85924460-675a5080-b8cd-11ea-8914-316f21139b61.png)
+
 ●要件定義  
 ＜表示内容＞  
 ①カウントダウン画面  
@@ -28,7 +30,7 @@ https://www.moongift.jp/2018/08/pomotroid-%E3%82%B7%E3%83%B3%E3%83%97%E3%83%AB%E
 ・設定用バー  
 ・適用ボタン  
 
-＜機能＞  
+＜機能＞→まずはカウントダウン画面のみ定義しました。
 ・最初は25:00が表示  
 ・スタートボタンを押すと、1秒毎にカウントダウンが始まる  
 ・ストップで一時停止  
