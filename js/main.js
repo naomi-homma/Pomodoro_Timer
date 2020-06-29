@@ -8,21 +8,36 @@
 
   let startTime;
   let timeoutId;
+  const workTime = 25;
 
 // countdown関数を作成する
 // 出力：25分-(クリックした時刻からの経過時間-クリック時刻)
 
-  function countDown() {
-    const d = new Date(Date.now() - startTime);
-    console.log(d);
+  // function countDown() {
+  //   timeoutId = setInterval(() => {
+  //     console.log(rest);
+  //     rest = (25 * 60 * 1000)-(Date.now() - startTime);
+  //   }, 1000);
+  // };
 
+  // ミリ秒で残り時間を計算する
+
+  function countDown() {
+    const rest = (workTime * 60 *1000) - (Date.now() - startTime);
+    const restMin = String(Math.floor((rest / 1000 / 60) % 60)).padStart(2, '0');
+    const restSec = String(Math.floor((rest / 1000) % 60)).padStart(2, '0');
+    timer.textContent = `${restMin}:${restSec}`;
     timeoutId = setTimeout(() => {
       countDown();
     }, 1000);
-  };
+  }
 
   start.addEventListener('click', () => {
     startTime = Date.now();
     countDown();
+  });
+
+  stop.addEventListener('click', () => {
+    clearTimeout(timeoutId);
   })
 }
