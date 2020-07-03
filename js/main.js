@@ -8,121 +8,123 @@
   const timeState = document.getElementById('timeState');
   const cycle = document.getElementById('cycle');
  
-  const workTime = 0.1;
-  const breakTime = 0.2;
-  const longBreakTime = 0.3;
+  // workTime、breakTime、longBreakTime、cycleCountは後々ユーザーが入力できるようにしたい
+  // workTime：作業時間
+  // breakTime：小休憩時間
+  // longBreakTime：長休憩時間
+  // cycleCountt：（作業+小休憩）のサイクル回数
+
+  const workTime = 25;
+  const breakTime = 5;
+  const longBreakTime = 30;
+
   let state = "work";
   let startTime;
-  let workTimeoutId;
-  let breakTimeoutId;
-  let longBreakTimeoutId;
+  let timeoutId;
   let elapsedTime = 0;
-  let initCount = 3;
+  let cycleCount = 3; 
   let count = 1;
 
-  // 最初のレンダリング後の描画
-  timer.textContent = `${String(workTime).padStart(2, '0')}:00`;
-  timeState.textContent = state;
-  cycle.textContent = `1/${initCount}`;
-
-  // ミリ秒で残り時間を計算する
-  // workTimeCountDown関数⇒残り時間の計算、ミリ秒から(分、秒)への変換、描画を行う
-  // 残り時間が0になったらカウントダウンを止めて、breakTimeCountDownを呼び出す
-  function workTimeCountDown() {
-    state = "work";
-    const remainigTime = (workTime * 60 *1000) - elapsedTime - (Date.now() - startTime);
-    const restMin = String(Math.floor((remainigTime / 1000 / 60) % 60)).padStart(2, '0');
-    const restSec = String(Math.floor((remainigTime / 1000) % 60)).padStart(2, '0');
-    timer.textContent = `${restMin}:${restSec}`;
-    if ( remainigTime > 0 ) {
-      workTimeoutId = setTimeout(() => {
-        workTimeCountDown();
-        }, 100); 
-      } else if ( remainigTime < 0 && count === 3 ) {
-        clearTimeout(workTimeoutId);
-        startTime = Date.now();
-        elapsedTime = 0;
-        longBreakTimeCountDown();
-        timeState.textContent = state;
-      } else {
-      clearTimeout(workTimeoutId);
-      startTime = Date.now();
-      elapsedTime = 0;
-      breakTimeCountDown();
-      timeState.textContent = state;
-    }
-  }
-
-  function breakTimeCountDown() {
-    state = "break";
-    const remainigTime = (breakTime * 60 *1000) - elapsedTime - (Date.now() - startTime);
-    const restMin = String(Math.floor((remainigTime / 1000 / 60) % 60)).padStart(2, '0');
-    const restSec = String(Math.floor((remainigTime / 1000) % 60)).padStart(2, '0');
-    timer.textContent = `${restMin}:${restSec}`;
+  // StateとCountを表示
+  function displayState (state, count) {
     timeState.textContent = state;
-    if ( remainigTime > 0 ) {
-      breakTimeoutId = setTimeout(() => {
-        breakTimeCountDown();
-        }, 100); 
-      } else {
-      clearTimeout(breakTimeoutId);
-      startTime = Date.now();
-      elapsedTime = 0;
-      count ++;
-      cycle.textContent = `${count}/${initCount}`;
-      workTimeCountDown();
-      timeState.textContent = state;
-    }
+    if (state === "work")
+      cycle.textContent = `${count}/${cycleCount}`;
   }
 
-  function longBreakTimeCountDown() {
-    state = "longBreak";
-    const remainigTime = (longBreakTime * 60 *1000) - elapsedTime - (Date.now() - startTime);
+  // Timerを表示
+  function displayTime(time) {
+    timer.textContent = `${String(time).padStart(2, '0')}:00`;
+  }
+
+  function countDown(time) {
+    const remainigTime = (time * 60 *1000) - elapsedTime - (Date.now() - startTime);
     const restMin = String(Math.floor((remainigTime / 1000 / 60) % 60)).padStart(2, '0');
     const restSec = String(Math.floor((remainigTime / 1000) % 60)).padStart(2, '0');
     timer.textContent = `${restMin}:${restSec}`;
-    timeState.textContent = state;
-    if ( remainigTime > 0 ) {
-      longBreakTimeoutId = setTimeout(() => {
-        longBreakTimeCountDown();
+    if (remainigTime >= 0) {
+      timeoutId = setTimeout(() => {
+        countDown(time);
         }, 100); 
-      } else {
-      clearTimeout(longBreakTimeoutId);
+    } else if (remainigTime < 0 ) {
+      clearTimeout(timeoutId);
       startTime = Date.now();
       elapsedTime = 0;
-      count = 1;
-      cycle.textContent = `${count}/${initCount}`;
-      workTimeCountDown();
-      timeState.textContent = state;
+      if (count === cycleCount && state === "work") {
+        state = "longBreak";
+        displayState(state);
+        countDown(longBreakTime);
+      } else if (state === "work") {
+        state = "break";
+        displayState(state);
+        countDown(breakTime);
+      } else if (state === "break") {
+        state = "work";
+        count ++;
+        displayState(state, count);
+        countDown(workTime);
+      } else if (state === "longBreak") {
+        state = "work";
+        count = 1;
+        displayState(state, count);
+        countDown(workTime);
+      }
     }
   }
+
+  // START, STOP, RESETボタンのクリック制御
+  function setButtonStateInitial() {
+    start.disable = false;
+    stop.disabled = true;
+    reset.disabled = true;
+  }
+
+  function setButtonStateRunning() {
+    start.disabled = true;
+    stop.disabled = false;
+    reset.disabled = true;
+  }
+
+  function setButtonStateStopped() {
+    start.disabled = false;
+    stop.disabled = true;
+    reset.disabled = false;
+  }
+
+  // 一番最初のレンダリング直後の描画
+  displayState(state, count);
+  displayTime(workTime);
+  setButtonStateInitial();
 
   start.addEventListener('click', () => {
+    setButtonStateRunning();
     startTime = Date.now();
     switch (state) {
-      case "work": workTimeCountDown();
+      case "work": countDown(workTime);
         break;
-      case "break": breakTimeCountDown();
+      case "break": countDown(breakTime);
         break;
-      case "longBreak": longBreakTimeCountDown();
+      case "longBreak": countDown(longBreakTime);
         break;
     }
   });
 
   stop.addEventListener('click', () => {
-    switch (state) {
-      case "work": clearTimeout(workTimeoutId);
-        break;
-      case "break": clearTimeout(breakTimeoutId);
-        break;
-      case "longBreak": clearTimeout(longBreakTimeoutId);
-        break;
-    }
+    setButtonStateStopped();
+    clearTimeout(timeoutId);
     elapsedTime += Date.now() - startTime;
   });
 
   reset.addEventListener('click', () => {
-    timer.textContent = `${String(workTime).padStart(2, '0')}:00`;
+    setButtonStateInitial();
+    switch (state) {
+      case "work": displayTime(workTime);
+        break;
+      case "break": displayTime(breakTime);
+        break;
+      case "longBreak": displayTime(longBreakTime);
+        break;
+    }
     elapsedTime = 0;
   });
 }
