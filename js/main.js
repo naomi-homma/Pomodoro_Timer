@@ -7,6 +7,7 @@
   const reset = document.getElementById('reset');
   const timeState = document.getElementById('timeState');
   const cycle = document.getElementById('cycle');
+  
  
   // workTime、breakTime、longBreakTime、cycleCountは後々ユーザーが入力できるようにしたい
   // workTime：作業時間
@@ -14,9 +15,9 @@
   // longBreakTime：長休憩時間
   // cycleCountt：（作業+小休憩）のサイクル回数
 
-  const workTime = 25;
-  const breakTime = 5;
-  const longBreakTime = 30;
+  const workTime = 0.2;
+  const breakTime = 0.2;
+  const longBreakTime = 0.1;
 
   let state = "work";
   let startTime;
@@ -24,6 +25,8 @@
   let elapsedTime = 0;
   let cycleCount = 3; 
   let count = 1;
+
+  const audio = new Audio();
 
   // StateとCountを表示
   function displayState (state, count) {
@@ -42,6 +45,7 @@
     const restMin = String(Math.floor((remainigTime / 1000 / 60) % 60)).padStart(2, '0');
     const restSec = String(Math.floor((remainigTime / 1000) % 60)).padStart(2, '0');
     timer.textContent = `${restMin}:${restSec}`;
+    document.title = `${restMin}:${restSec} Pomodoro Timer`;
     if (remainigTime >= 0) {
       timeoutId = setTimeout(() => {
         countDown(time);
@@ -51,19 +55,27 @@
       startTime = Date.now();
       elapsedTime = 0;
       if (count === cycleCount && state === "work") {
+        audio.src = "../assets/hatoclock.mp3#t=0,3.5";
+        audio.play();
         state = "longBreak";
         displayState(state);
         countDown(longBreakTime);
       } else if (state === "work") {
+        audio.src = "../assets/hatoclock.mp3#t=0,3.5";
+        audio.play();
         state = "break";
         displayState(state);
         countDown(breakTime);
       } else if (state === "break") {
+        audio.src = "../assets/school-chime1.mp3#t=0,10.5";
+        audio.play();
         state = "work";
         count ++;
         displayState(state, count);
         countDown(workTime);
       } else if (state === "longBreak") {
+        audio.src = "../assets/school-chime1.mp3#t=0,10.5";
+        audio.play();
         state = "work";
         count = 1;
         displayState(state, count);
