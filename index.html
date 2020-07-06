@@ -8,16 +8,32 @@
 </head>
 <body>
   <div class="container">
-    <div id="timer">25:00</div>
-    <p id="timeState">WORK</p>
+    <div id="timer"></div>
+    <p id="timeState"></p>
     <div class="controls">
       <button class="btn" id="start">START</button>
       <button class="btn" id="stop">STOP</button>
       <button class="btn" id="reset">RESET</button>
     </div>
     <div>
-      <p id="cycle">1/4</p>
+      <p id="cycle"></p>
+      <p id="input_worktime"></p>
+      <p id="input_breaktime"></p>
+      <p id="input_longbreaktime"></p>
+      <p id="input_cyclecount"></p>
     </div>
+  </div>
+  <div class="container">
+    <p>■タイマーは以下で調整できます■</p>
+    <label for="work">作業時間：</label>
+    <input type="number" name="work" id="work_time" value="25" pattern="/^\d*$/"><br>
+    <label for="break">小休憩時間：</label>
+    <input type="number" name="break" id="break_time" value="5"><br>
+    <label for="longbreak">長休憩時間：</label>
+    <input type="number" name="longbreak" id="longbreak_time" value="20"><br>
+    <label for="cycle">長休憩までの回数：</label>
+    <input type="number" name="cycle" id="cycle_count" value="4"><br>
+    <button type="submit" class="btn" id="submit_btn">設定</button>
   </div>
 
   <script src="js/main.js"></script>

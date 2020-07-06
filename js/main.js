@@ -7,7 +7,11 @@
   const reset = document.getElementById('reset');
   const timeState = document.getElementById('timeState');
   const cycle = document.getElementById('cycle');
-  
+  const input_worktime = document.getElementById('input_worktime');
+  const input_breaktime = document.getElementById('input_breaktime');
+  const input_longbreaktime = document.getElementById('input_longbreaktime');
+  const input_cyclecount = document.getElementById('input_cyclecount');
+  const submit_btn = document.getElementById('submit_btn');
  
   // workTime、breakTime、longBreakTime、cycleCountは後々ユーザーが入力できるようにしたい
   // workTime：作業時間
@@ -15,18 +19,31 @@
   // longBreakTime：長休憩時間
   // cycleCountt：（作業+小休憩）のサイクル回数
 
-  const workTime = 0.2;
-  const breakTime = 0.2;
-  const longBreakTime = 0.1;
-
+  // 初期値
+  let workTime = 25;
+  let breakTime = 5;
+  let longBreakTime = 20;
+  let cycleCount = 4; 
   let state = "work";
+
   let startTime;
   let timeoutId;
   let elapsedTime = 0;
-  let cycleCount = 3; 
   let count = 1;
 
+  // 効果音再生
   const audio = new Audio();
+
+  // user設定反映
+  submit_btn.addEventListener('click', () => {
+    workTime = work_time.value;
+    breakTime = break_time.value;
+    longBreakTime = longbreak_time.value;
+    cycleCount = cycle_count.value;
+    displayInput(workTime, breakTime, longBreakTime, cycleCount);
+    displayTime(workTime);
+    displayState(state, count);
+  });
 
   // StateとCountを表示
   function displayState (state, count) {
@@ -39,6 +56,15 @@
   function displayTime(time) {
     timer.textContent = `${String(time).padStart(2, '0')}:00`;
   }
+
+  // inputの取得値を表示
+  function displayInput(workTime, breakTime, longBreakTime, cycleCount) {
+    input_worktime.textContent = `作業時間：${workTime}分`;
+    input_breaktime.textContent = `小休憩時間：${breakTime}分`;
+    input_longbreaktime.textContent = `長休憩時間：${longBreakTime}分`;
+    input_cyclecount.textContent = `長休憩までの回数：${cycleCount}回`;
+  }
+
 
   function countDown(time) {
     const remainigTime = (time * 60 *1000) - elapsedTime - (Date.now() - startTime);
@@ -106,6 +132,7 @@
   // 一番最初のレンダリング直後の描画
   displayState(state, count);
   displayTime(workTime);
+  displayInput(workTime, breakTime, longBreakTime, cycleCount);
   setButtonStateInitial();
 
   start.addEventListener('click', () => {
