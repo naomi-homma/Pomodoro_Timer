@@ -34,22 +34,11 @@
   // 効果音再生
   const audio = new Audio();
 
-  // user設定反映
-  submit_btn.addEventListener('click', () => {
-    workTime = work_time.value;
-    breakTime = break_time.value;
-    longBreakTime = longbreak_time.value;
-    cycleCount = cycle_count.value;
-    displayInput(workTime, breakTime, longBreakTime, cycleCount);
-    displayTime(workTime);
-    displayState(state, count);
-  });
-
   // StateとCountを表示
   function displayState (state, count) {
     timeState.textContent = state;
     if (state === "work")
-      cycle.textContent = `${count}/${cycleCount}`;
+      cycle.textContent = `${count}/${Number(cycleCount)+1}`;
   }
 
   // Timerを表示
@@ -59,12 +48,11 @@
 
   // inputの取得値を表示
   function displayInput(workTime, breakTime, longBreakTime, cycleCount) {
-    input_worktime.textContent = `作業時間：${workTime}分`;
-    input_breaktime.textContent = `小休憩時間：${breakTime}分`;
-    input_longbreaktime.textContent = `長休憩時間：${longBreakTime}分`;
+    input_worktime.textContent = `作業時間　　　　：${workTime}分`;
+    input_breaktime.textContent = `小休憩時間　　　：${breakTime}分`;
+    input_longbreaktime.textContent = `長休憩時間　　　：${longBreakTime}分`;
     input_cyclecount.textContent = `長休憩までの回数：${cycleCount}回`;
   }
-
 
   function countDown(time) {
     const remainigTime = (time * 60 *1000) - elapsedTime - (Date.now() - startTime);
@@ -80,7 +68,7 @@
       clearTimeout(timeoutId);
       startTime = Date.now();
       elapsedTime = 0;
-      if (count === cycleCount && state === "work") {
+      if (count === cycleCount+1 && state === "work") {
         audio.src = "../assets/hatoclock.mp3#t=0,3.5";
         audio.play();
         state = "longBreak";
@@ -129,12 +117,6 @@
     reset.disabled = false;
   }
 
-  // 一番最初のレンダリング直後の描画
-  displayState(state, count);
-  displayTime(workTime);
-  displayInput(workTime, breakTime, longBreakTime, cycleCount);
-  setButtonStateInitial();
-
   start.addEventListener('click', () => {
     setButtonStateRunning();
     startTime = Date.now();
@@ -166,4 +148,22 @@
     }
     elapsedTime = 0;
   });
+
+  // user設定反映
+  submit_btn.addEventListener('click', () => {
+    workTime = work_time.value;
+    breakTime = break_time.value;
+    longBreakTime = longbreak_time.value;
+    cycleCount = cycle_count.value;
+    displayInput(workTime, breakTime, longBreakTime, cycleCount);
+    displayTime(workTime);
+    displayState(state, count);
+  });
+
+  // 一番最初のレンダリング直後の描画
+  displayState(state, count);
+  displayTime(workTime);
+  displayInput(workTime, breakTime, longBreakTime, cycleCount);
+  setButtonStateInitial();
+
 }
