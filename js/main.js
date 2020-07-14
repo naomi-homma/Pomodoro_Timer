@@ -75,7 +75,7 @@
         displayState(state);
         countDown(longBreakTime);
       } else if (state === "work") {
-        audio.src = "../hatoclock.mp3#t=0,3.5";
+        audio.src = "../hatoclock.mp3";
         audio.play();
         state = "break";
         displayState(state);
