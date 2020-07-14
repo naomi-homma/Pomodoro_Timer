@@ -75,7 +75,15 @@
         displayState(state);
         countDown(longBreakTime);
       } else if (state === "work") {
-        audio.src = "https://naomi-homma.github.io/hatoclock.mp3";
+        audio.src = "../hatoclock.mp3#t=0,3.5";
+        const playPromise = audio.play();
+        if(playPromise !== undefined) {
+          playPromise.then(_ => {
+          })
+          .catch(error => {
+            console.log(error);
+          });
+        }
         audio.play();
         state = "break";
         displayState(state);
