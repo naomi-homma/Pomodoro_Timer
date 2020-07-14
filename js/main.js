@@ -69,26 +69,26 @@
       startTime = Date.now();
       elapsedTime = 0;
       if (count === cycleCount+1 && state === "work") {
-        audio.src = "../assets/hatoclock.mp3#t=0,3.5";
+        audio.src = "../hatoclock.mp3#t=0,3.5";
         audio.play();
         state = "longBreak";
         displayState(state);
         countDown(longBreakTime);
       } else if (state === "work") {
-        audio.src = "../assets/hatoclock.mp3#t=0,3.5";
+        audio.src = "../hatoclock.mp3#t=0,3.5";
         audio.play();
         state = "break";
         displayState(state);
         countDown(breakTime);
       } else if (state === "break") {
-        audio.src = "../assets/school-chime1.mp3#t=0,10.5";
+        audio.src = "../school-chime1.mp3#t=0,10.5";
         audio.play();
         state = "work";
         count ++;
         displayState(state, count);
         countDown(workTime);
       } else if (state === "longBreak") {
-        audio.src = "../assets/school-chime1.mp3#t=0,10.5";
+        audio.src = "../school-chime1.mp3#t=0,10.5";
         audio.play();
         state = "work";
         count = 1;
