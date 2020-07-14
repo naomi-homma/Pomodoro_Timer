@@ -69,13 +69,13 @@
       startTime = Date.now();
       elapsedTime = 0;
       if (count === cycleCount+1 && state === "work") {
-        audio.src = "../hatoclock.mp3#t=0,3.5";
+        audio.src = "https://naomi-homma.github.io/Pomodoro_Timer/hatoclock.mp3#t=0,3.5";
         audio.play();
         state = "longBreak";
         displayState(state);
         countDown(longBreakTime);
       } else if (state === "work") {
-        audio.src = "../hatoclock.mp3#t=0,3.5";
+        audio.src = "https://naomi-homma.github.io/Pomodoro_Timer/hatoclock.mp3#t=0,3.5";
         const playPromise = audio.play();
         if(playPromise !== undefined) {
           playPromise.then(_ => {
@@ -89,7 +89,7 @@
         displayState(state);
         countDown(breakTime);
       } else if (state === "break") {
-        audio.src = "../school-chime1.mp3#t=0,10.5";
+        audio.src = "https://naomi-homma.github.io/Pomodoro_Timer#t=0,10.5";
         audio.play();
         state = "work";
         count ++;
