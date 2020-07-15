@@ -23,7 +23,7 @@
   let workTime = 25;
   let breakTime = 5;
   let longBreakTime = 20;
-  let cycleCount = 4; 
+  let cycleCount = 4; //長休憩までの回数
   let state = "work";
 
   let startTime;
@@ -68,14 +68,8 @@
       clearTimeout(timeoutId);
       startTime = Date.now();
       elapsedTime = 0;
-      if (count === cycleCount+1 && state === "work") {
-        audio.src = "https://naomi-homma.github.io/Pomodoro_Timer/hatoclock.mp3#t=0,3.5";
-        audio.play();
-        state = "longBreak";
-        displayState(state);
-        countDown(longBreakTime);
-      } else if (state === "work") {
-        audio.src = "https://naomi-homma.github.io/Pomodoro_Timer/hatoclock.mp3#t=0,3.5";
+      if (count === cycleCount && state === "work") {
+        audio.src = "https://naomi-homma.github.io/Pomodoro_Timer/assets/audio/hatoclock.mp3#t=0,3.5";
         const playPromise = audio.play();
         if(playPromise !== undefined) {
           playPromise.then(_ => {
@@ -84,20 +78,48 @@
             console.log(error);
           });
         }
-        audio.play();
+        state = "longBreak";
+        displayState(state);
+        countDown(longBreakTime);
+      } else if (state === "work") {
+        audio.src = "https://naomi-homma.github.io/Pomodoro_Timer/assets/audio/hatoclock.mp3#t=0,3.5";
+        const playPromise = audio.play();
+        if(playPromise !== undefined) {
+          playPromise.then(_ => {
+          })
+          .catch(error => {
+            console.log(error);
+          });
+        }
         state = "break";
+        console.log(count);
+        console.log(cycleCount);
         displayState(state);
         countDown(breakTime);
       } else if (state === "break") {
-        audio.src = "https://naomi-homma.github.io/Pomodoro_Timer#t=0,10.5";
-        audio.play();
+        audio.src = "https://naomi-homma.github.io/Pomodoro_Timer/assets/audio/school-chime1.mp3#t=0,10.5";
+        const playPromise = audio.play();
+        if(playPromise !== undefined) {
+          playPromise.then(_ => {
+          })
+          .catch(error => {
+            console.log(error);
+          });
+        }
         state = "work";
         count ++;
         displayState(state, count);
         countDown(workTime);
       } else if (state === "longBreak") {
-        audio.src = "../school-chime1.mp3#t=0,10.5";
-        audio.play();
+        audio.src = "https://naomi-homma.github.io/Pomodoro_Timer/assets/audio/school-chime1.mp3#t=0,10.5";
+        const playPromise = audio.play();
+        if(playPromise !== undefined) {
+          playPromise.then(_ => {
+          })
+          .catch(error => {
+            console.log(error);
+          });
+        }
         state = "work";
         count = 1;
         displayState(state, count);
