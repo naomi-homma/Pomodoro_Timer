@@ -82,7 +82,7 @@
         displayState(state);
         countDown(longBreakTime);
       } else if (state === "work") {
-        audio.src = "https://naomi-homma.github.io/Pomodoro_Timer/assets/audio/hatoclock.mp3#t=0,3.5";
+        audio.src = "../assets/audio/hatoclock.mp3#t=0,3.5";
         const playPromise = audio.play();
         if(playPromise !== undefined) {
           playPromise.then(_ => {
@@ -180,7 +180,7 @@
   });
 
   // user設定反映
-  submit_btn.addEventListener('click', () => {
+  submit_btn.addEventListener('submit', () => {
     workTime = work_time.value;
     breakTime = break_time.value;
     longBreakTime = longbreak_time.value;
