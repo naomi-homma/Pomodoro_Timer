@@ -81,8 +81,8 @@
         state = "longBreak";
         displayState(state);
         countDown(longBreakTime);
-      } else if (state === "work") {
-        audio.src = "../assets/audio/hatoclock.mp3#t=0,3.5";
+      } else if (count < cycleCount && state === "work") {
+        audio.src = "https://naomi-homma.github.io/Pomodoro_Timer/assets/audio/hatoclock.mp3#t=0,3.5";
         const playPromise = audio.play();
         if(playPromise !== undefined) {
           playPromise.then(_ => {
