@@ -11,7 +11,7 @@
   const input_breaktime = document.getElementById('input_breaktime');
   const input_longbreaktime = document.getElementById('input_longbreaktime');
   const input_cyclecount = document.getElementById('input_cyclecount');
-  const submit_btn = document.getElementById('submit_btn');
+  const form_id = document.getElementById('form_id');
  
   // workTime、breakTime、longBreakTime、cycleCountは後々ユーザーが入力できるようにしたい
   // workTime：作業時間
@@ -82,7 +82,7 @@
         displayState(state);
         countDown(longBreakTime);
       } else if (state === "work") {
-        audio.src = "../assets/audio/hatoclock.mp3#t=0,3.5";
+        audio.src = "https://naomi-homma.github.io/Pomodoro_Timer/assets/audio/hatoclock.mp3#t=0,3.5";
         const playPromise = audio.play();
         if(playPromise !== undefined) {
           playPromise.then(_ => {
@@ -180,7 +180,7 @@
   });
 
   // user設定反映
-  submit_btn.addEventListener('submit', () => {
+  form_id.addEventListener('submit', () => {
     workTime = work_time.value;
     breakTime = break_time.value;
     longBreakTime = longbreak_time.value;
