@@ -48,10 +48,10 @@
 
   // inputの取得値を表示
   function displayInput(workTime, breakTime, longBreakTime, cycleCount) {
-    input_worktime.textContent = `作業時間　　　　：${workTime}分`;
-    input_breaktime.textContent = `小休憩時間　　　：${breakTime}分`;
-    input_longbreaktime.textContent = `長休憩時間　　　：${longBreakTime}分`;
-    input_cyclecount.textContent = `長休憩までの回数：${cycleCount}回`;
+    input_worktime.textContent = `：${workTime}`;
+    input_breaktime.textContent = `：${breakTime}`;
+    input_longbreaktime.textContent = `：${longBreakTime}`;
+    input_cyclecount.textContent = `：${cycleCount}`;
   }
 
   function countDown(time) {
@@ -130,7 +130,7 @@
 
   // START, STOP, RESETボタンのクリック制御
   function setButtonStateInitial() {
-    start.disable = false;
+    start.disabled = false;
     stop.disabled = true;
     reset.disabled = true;
   }
