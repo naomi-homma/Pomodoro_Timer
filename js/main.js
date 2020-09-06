@@ -12,12 +12,6 @@
   const input_longbreaktime = document.getElementById('input_longbreaktime');
   const input_cyclecount = document.getElementById('input_cyclecount');
   const form_id = document.getElementById('form_id');
- 
-  // workTime、breakTime、longBreakTime、cycleCountは後々ユーザーが入力できるようにしたい
-  // workTime：作業時間
-  // breakTime：小休憩時間
-  // longBreakTime：長休憩時間
-  // cycleCountt：（作業+小休憩）のサイクル回数
 
   // 初期値
   let workTime = 25;
@@ -38,7 +32,7 @@
   function displayState (state, count) {
     timeState.textContent = state;
     if (state === "work")
-      cycle.textContent = `${count}/${Number(cycleCount)+1}`;
+      cycle.textContent = `作業回数：${count}/${Number(cycleCount)}`;
   }
 
   // Timerを表示
@@ -48,10 +42,10 @@
 
   // inputの取得値を表示
   function displayInput(workTime, breakTime, longBreakTime, cycleCount) {
-    input_worktime.textContent = `作業時間　　　　：${workTime}分`;
-    input_breaktime.textContent = `小休憩時間　　　：${breakTime}分`;
-    input_longbreaktime.textContent = `長休憩時間　　　：${longBreakTime}分`;
-    input_cyclecount.textContent = `長休憩までの回数：${cycleCount}回`;
+    input_worktime.textContent = `：${workTime}`;
+    input_breaktime.textContent = `：${breakTime}`;
+    input_longbreaktime.textContent = `：${longBreakTime}`;
+    input_cyclecount.textContent = `：${cycleCount}`;
   }
 
   function countDown(time) {
@@ -81,7 +75,7 @@
         state = "longBreak";
         displayState(state);
         countDown(longBreakTime);
-      } else if (state === "work") {
+      } else if (count !== cycleCount && state === "work") {
         audio.src = "https://naomi-homma.github.io/Pomodoro_Timer/assets/audio/hatoclock.mp3#t=0,3.5";
         const playPromise = audio.play();
         if(playPromise !== undefined) {
@@ -128,9 +122,11 @@
     }
   }
 
+  console.log(count === cycleCount);
+
   // START, STOP, RESETボタンのクリック制御
   function setButtonStateInitial() {
-    start.disable = false;
+    start.disabled = false;
     stop.disabled = true;
     reset.disabled = true;
   }
